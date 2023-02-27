@@ -11,13 +11,14 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  driver = new Driver(100, 200, 25);
+  driver = new Driver(175, 150, 12);
   rectMode(CENTER);
 }
 
 function draw() {
   //background(51);
-  background(track, 100);
+  background(track);
+
 
   driver.checkPath();
   driver.show();
@@ -31,14 +32,12 @@ function windowResized() {
 
 function keyPressed(){
   if(keys.includes(key)){
-    print(key)
     controls[keys.indexOf(key)] = 1;
   }
 }
 
 function keyReleased(){
   if(keys.includes(key)){
-    print(key)
     controls[keys.indexOf(key)] = 0;
   }
 }

@@ -1,5 +1,9 @@
-let driver;
+let scores = []
+
+let drivers = [];
 let track;
+let algo = [];
+let dLimit = 50;
 
 let controls = [0, 0, 0, 0];
 let keys = ['w', 's', 'a', 'd'];
@@ -11,18 +15,30 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  driver = new Driver(175, 150, 12);
+  for (let i = 0; i < dLimit; i++){
+    drivers.push(new Driver(175, 150, 12));
+    algo.push(new GenAlgo(1000, 1, i))
+  }
+  
   rectMode(CENTER);
+
+  // algo[0].saveMoves()
 }
 
 function draw() {
   //background(51);
   background(track);
 
-
-  driver.checkPath();
-  driver.show();
-  driver.calculate();
+  for (let i = 0; i < dLimit; i++){
+  drivers[i].checkPath();
+  drivers[i].show();
+  drivers[i].calculate(algo[i].moves[frameCount]);
+  algo[i].printBest()
+  }
+  if(frameCount > 1000 && frameCount < 1004){
+    print(scores.sort())
+  }
+  
 }
 
 function windowResized() {

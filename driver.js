@@ -13,7 +13,7 @@ class Driver {
 
 
         // hiperParameters zone!
-        this.speedVar = 0.35
+        this.speedVar = 0.5;
         this.dampForce = 1.07;
         this.angleForce = 4;
 
@@ -34,7 +34,11 @@ class Driver {
 
         noStroke();
         if (!this.death) {
-            fill(this.carColor);
+            noFill()
+            imageMode(CENTER)
+            carModelPath.resize(this.size, this.size * 2)
+            image(carModelPath, 0, 0)
+            // fill(this.carColor);
         } else {
             fill(199, 25, 0, 150)
         };
@@ -96,8 +100,8 @@ class Driver {
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
             case 3: this.carColor = color(180, 25, 0, 150); this.death = true; break;
-            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0 && this.x < width/2) ? (true, this.score++) : false; break;
-            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1 && this.x > width/2) ? (true, this.score++) : false; break;
+            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0 && this.x < width / 2) ? (true, this.score++) : false; break;
+            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1 && this.x > width / 2) ? (true, this.score++) : false; break;
             default: this.carColor = color(180, 25, 255, 150); break;
         }
     }

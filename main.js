@@ -1,44 +1,49 @@
-let scores = []
-
+let scores = [];
 let drivers = [];
+let driverMoves = [];
 let track;
-let algo = [];
-let dLimit = 50;
+let algo;
+
+
+const agentCount = 1;
+const movesLimit = 100;
 
 let controls = [0, 0, 0, 0];
-let keys = ['w', 's', 'a', 'd'];
+const keys = ['w', 's', 'a', 'd'];
 
-function preload(){
-  track = loadImage('track.png')
+function preload() {
+  track = loadImage('assets/track.png')
+  carModelPath = loadImage('assets/pixel_car.png')
 }
 
 function setup() {
+  frameRate(60);
+
   createCanvas(windowWidth, windowHeight);
 
-  for (let i = 0; i < dLimit; i++){
-    drivers.push(new Driver(175, 150, 12));
-    algo.push(new GenAlgo(1000, 1, i))
-  }
-  
-  rectMode(CENTER);
+  algo = new GenAlgo(movesLimit, []);
 
-  // algo[0].saveMoves()
+  for (let i = 0; i < agentCount; i++) {
+    drivers.push(new Driver(300, 100, 12));
+    driverMoves.push(algo.generateMoves(i));
+  }
+
+  rectMode(CENTER);
 }
 
 function draw() {
-  //background(51);
   background(track);
 
-  for (let i = 0; i < dLimit; i++){
-  drivers[i].checkPath();
-  drivers[i].show();
-  drivers[i].calculate(algo[i].moves[frameCount]);
-  algo[i].printBest()
+  for (let i = 0; i < agentCount; i++) {
+    drivers[i].checkPath();
+    drivers[i].show();
+    drivers[i].calculate(driverMoves[i][frameCount]);
   }
-  if(frameCount > 1000 && frameCount < 1004){
+
+  if (frameCount == movesLimit) {
     print(scores.sort())
   }
-  
+
 }
 
 function windowResized() {
@@ -46,14 +51,14 @@ function windowResized() {
 }
 
 
-function keyPressed(){
-  if(keys.includes(key)){
+function keyPressed() {
+  if (keys.includes(key)) {
     controls[keys.indexOf(key)] = 1;
   }
 }
 
-function keyReleased(){
-  if(keys.includes(key)){
+function keyReleased() {
+  if (keys.includes(key)) {
     controls[keys.indexOf(key)] = 0;
   }
 }

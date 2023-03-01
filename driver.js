@@ -13,7 +13,7 @@ class Driver {
 
 
         // hiperParameters zone!
-        this.speedVar = 0.5;
+        this.speedVar = 0.35;
         this.dampForce = 1.07;
         this.angleForce = 4;
 
@@ -38,7 +38,7 @@ class Driver {
             imageMode(CENTER)
             carModelPath.resize(this.size, this.size * 2)
             image(carModelPath, 0, 0)
-            // fill(this.carColor);
+            //fill(this.carColor);
         } else {
             fill(199, 25, 0, 150)
         };
@@ -95,7 +95,7 @@ class Driver {
     }
 
     checkPath() {
-        let currColor = get(this.x, this.y)[0];
+        let currColor = track.get(this.x, this.y)[0];
 
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;

@@ -5,8 +5,8 @@ let track;
 let algo;
 
 
-const agentCount = 1;
-const movesLimit = 100;
+const agentCount = 10;
+const movesLimit = 1000;
 
 let controls = [0, 0, 0, 0];
 const keys = ['w', 's', 'a', 'd'];
@@ -20,13 +20,14 @@ function setup() {
   frameRate(60);
 
   createCanvas(windowWidth, windowHeight);
+  track.resize(windowWidth, windowHeight);
 
   algo = new GenAlgo(movesLimit, []);
 
   for (let i = 0; i < agentCount; i++) {
     drivers.push(new Driver(300, 100, 12));
     driverMoves.push(algo.generateMoves(i));
-  }
+  };
 
   rectMode(CENTER);
 }
@@ -40,14 +41,15 @@ function draw() {
     drivers[i].calculate(driverMoves[i][frameCount]);
   }
 
-  if (frameCount == movesLimit) {
-    print(scores.sort())
-  }
+  // if (frameCount == movesLimit) {
+  //   algo.saveMoves()
+  // }
 
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  track.resize(windowWidth, windowHeight);
 }
 
 

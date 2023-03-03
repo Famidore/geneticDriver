@@ -83,7 +83,8 @@ class Driver {
         this.y += this.vy;
 
         textSize(64);
-        stroke(255);
+        stroke(51);
+        fill(255);
         textAlign(CENTER, BASELINE);
         text(this.score, width / 2, height / 2 + 50);
 
@@ -100,8 +101,8 @@ class Driver {
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
             case 3: this.carColor = color(180, 25, 0, 150); this.death = true; break;
-            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0 && this.x < width / 2) ? (true, this.score++) : false; break;
-            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1 && this.x > width / 2) ? (true, this.score++) : false; break;
+            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++) : false; break;
+            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++) : false; break;
             default: this.carColor = color(180, 25, 255, 150); break;
         }
     }

@@ -87,6 +87,7 @@ class Driver {
         fill(255);
         textAlign(CENTER, BASELINE);
         text(this.score, width / 2, height / 2 + 50);
+        text(linesControls, width / 2, height / 2 + 150);
 
         this.ax = 0;
         this.ay = 0;

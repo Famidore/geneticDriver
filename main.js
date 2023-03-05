@@ -5,6 +5,8 @@ let trackCreator;
 let algo;
 let toggleCreator = false;
 let driverStart = [300, 100];
+let linesControls = [0, 0, 0, 0, 0, 0];
+const angles = [45, 0, 315, 225, 180, 135];
 
 
 const agentCount = 1;
@@ -37,9 +39,15 @@ function draw() {
 
   background(track);
   if (!toggleCreator) {
+    track.loadPixels()
     driver.checkPath();
     driver.show();
     driver.calculate();
+    for (i in angles) {
+      algo.generateLines(50, driver.x, driver.y, driver.angle + angles[i], i)
+    }
+    track.updatePixels()
+
 
   } else {
     trackCreator.drawTrack();

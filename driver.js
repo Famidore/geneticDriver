@@ -15,7 +15,7 @@ class Driver {
         // hiperParameters zone!
         this.speedVar = 0.35;
         this.dampForce = 1.07;
-        this.angleForce = 4;
+        this.angleForce = 3;
 
         this.loopCheck = false;
         this.score = 0;

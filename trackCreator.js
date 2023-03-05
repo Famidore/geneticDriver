@@ -23,6 +23,7 @@ class TrackCreator {
         this.buttonSaving.position(x, y + 25);
         this.buttonSaving.mouseClicked(this.saveTrack);
         this.buttonSaving.mouseOver(() => (toggleCreator) ? this.hiddenUI = true : this.hiddenUI = false);
+
     }
 
     initialize() {
@@ -50,10 +51,10 @@ class TrackCreator {
             ellipse(circleX, circleY, circleSize);
         }
         if (!this.hiddenUI) {
-            this.painter(colorSize * 2);
+            this.painter(colorSize * 2 + this.painterSize, width - colorSize * 10 - this.painterSize / 2);
 
 
-            fill(0, 0, 255);
+            fill(255, 0, 255);
             textAlign(CENTER, CENTER);
             textSize(24);
             text('START', driverStart[0], driverStart[1]);
@@ -74,24 +75,36 @@ class TrackCreator {
         }
     }
 
-    painter(boundryUp) {
+    painter(boundryUp, boundryLeft, buttonRight, buttonDown) {
         noStroke()
         fill(this.r, this.g, this.b);
         ellipse(mouseX, mouseY, this.painterSize);
 
-        if (mouseIsPressed && mouseY > boundryUp) {
+        if (mouseIsPressed && !(mouseX > boundryLeft && mouseY < boundryUp)) {
             this.trackPoints.push([mouseX, mouseY, this.painterSize, this.r, this.g, this.b]);
         };
     }
 
+
     saveTrack() {
         if (toggleCreator) {
             // saveCanvas('track', 'png');
+            const dens = pixelDensity()
             let img = createImage(width, height);
             img.loadPixels();
+            loadPixels();
             for (let i = 0; i < img.width; i++) {
                 for (let j = 0; j < img.height; j++) {
-                    img.set(i, j, get(i, j));
+
+                    const off = (j * width + i) * dens * 4;
+                    const components = [
+                        pixels[off],
+                        pixels[off + 1],
+                        pixels[off + 2],
+                        pixels[off + 3]
+                    ];
+
+                    img.set(i, j, components);
                 }
             }
             img.updatePixels();
@@ -100,6 +113,8 @@ class TrackCreator {
             background(track);
         }
     }
+
+
 
 
 }

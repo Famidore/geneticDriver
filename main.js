@@ -1,6 +1,5 @@
 let scores = [];
-let drivers = [];
-let driverMoves = [];
+let driver;
 let track;
 let trackCreator;
 let algo;
@@ -8,8 +7,7 @@ let toggleCreator = false;
 let driverStart = [300, 100];
 
 
-const agentCount = 5;
-const movesLimit = 1000;
+const agentCount = 1;
 
 let controls = [0, 0, 0, 0];
 const keys = ['w', 's', 'a', 'd'];
@@ -27,12 +25,9 @@ function setup() {
 
 
   trackCreator = new TrackCreator();
-  algo = new GenAlgo(movesLimit, []);
+  algo = new GenAlgo([]);
 
-  for (let i = 0; i < agentCount; i++) {
-    drivers.push(new Driver(driverStart[0], driverStart[1], 12));
-    driverMoves.push(algo.generateMoves(i));
-  };
+  driver = new Driver(driverStart[0], driverStart[1], 12);
 
   rectMode(CENTER);
   trackCreator.makeButton(25, 25);
@@ -42,22 +37,20 @@ function draw() {
 
   background(track);
   if (!toggleCreator) {
-    for (let i = 0; i < agentCount; i++) {
-      drivers[i].checkPath();
-      drivers[i].show();
-      drivers[i].calculate(driverMoves[i][frameCount]);
-    }
+    driver.checkPath();
+    driver.show();
+    driver.calculate();
+
   } else {
     trackCreator.drawTrack();
     if (keyIsDown(90)) {
       trackCreator.trackPoints.pop();
+    } else if (keyIsDown(85)) {
+      trackCreator.painterSize += 2;
+    } else if (keyIsDown(74) && trackCreator.painterSize > 1) {
+      trackCreator.painterSize -= 2;
     }
   }
-
-  // if (frameCount == movesLimit) {
-  //   algo.saveMoves()
-  // }
-
 }
 
 function windowResized() {
@@ -87,10 +80,9 @@ function keyReleased() {
 }
 
 function resetDrivers() {
-  for (let i = 0; i < agentCount; i++) {
-    drivers[i].x = driverStart[0];
-    drivers[i].y = driverStart[1];
-    drivers[i].death = false;
-    drivers[i].angle = 0;
-  }
+  driver.x = driverStart[0];
+  driver.y = driverStart[1];
+  driver.death = false;
+  driver.angle = 0;
+  driver.score = 0;
 }

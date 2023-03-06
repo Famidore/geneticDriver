@@ -39,12 +39,12 @@ function draw() {
 
   background(track);
   if (!toggleCreator) {
-    track.loadPixels()
+    track.loadPixels();
     driver.checkPath();
     driver.show();
     driver.calculate();
     for (i in angles) {
-      algo.generateLines(50, driver.x, driver.y, driver.angle + angles[i], i)
+      algo.generateLines(100, driver.x, driver.y, driver.angle + angles[i], i)
     }
     track.updatePixels()
 

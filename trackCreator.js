@@ -39,7 +39,7 @@ class TrackCreator {
             this.pickColor(0, 0, 0, width - colorSize * 2, colorSize, colorSize);       // black - road
             this.pickColor(3, 49, 3, width - colorSize * 4, colorSize, colorSize);       // green - grass
             this.pickColor(255, 255, 255, width - colorSize * 6, colorSize, colorSize);       // white - firstCheckpoint
-            this.pickColor(200, 0, 126, width - colorSize * 8, colorSize, colorSize);       // pinkish - secoundCheckpoint
+            this.pickColor(200, 0, 126, width - colorSize * 8, colorSize, colorSize);       // pinkish - secondCheckpoint
         }
 
         for (var i = 1; i < this.trackPoints.length; i++) {
@@ -51,7 +51,7 @@ class TrackCreator {
             ellipse(circleX, circleY, circleSize);
         }
         if (!this.hiddenUI) {
-            this.painter(colorSize * 2 + this.painterSize, width - colorSize * 10 - this.painterSize / 2);
+            this.painter(colorSize * 2 + this.painterSize / 2, width - colorSize * 10 - this.painterSize / 2);
 
 
             fill(255, 0, 255);
@@ -111,6 +111,8 @@ class TrackCreator {
             track = img;
             toggleCreator = !toggleCreator;
             background(track);
+
+            driver.prevDeaths = [];
         }
     }
 

@@ -44,7 +44,7 @@ function draw() {
     driver.show();
     driver.calculate();
     for (i in angles) {
-      algo.generateLines(100, driver.x, driver.y, driver.angle + angles[i], i)
+      algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
     }
     track.updatePixels()
 
@@ -77,6 +77,7 @@ function keyPressed() {
   } else if (key == 'q') {
     trackCreator.trackPoints = [];
   } else if (key == 'r') {
+    driver.death ? driver.prevDeaths.unshift([driver.x, driver.y, driver.angle]) : '';
     resetDrivers();
   }
 }

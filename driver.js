@@ -22,6 +22,8 @@ class Driver {
         this.death = false;
 
         this.carColor = color(100, 0, 0, 0);
+
+        this.prevDeaths = [];
     }
 
     show() {
@@ -43,11 +45,23 @@ class Driver {
             fill(199, 25, 0, 150)
         };
         rect(0, 0, this.size, this.size * 2);
-        stroke(150, 0, 0, 50);
-        strokeWeight(2)
-        line(0, 0, 0, this.size + 10)
 
         pop();
+
+
+        // render previous deaths
+        for (i in this.prevDeaths) {
+            push();
+            translate(this.prevDeaths[i][0], this.prevDeaths[i][1]);
+            rotate(radians(this.prevDeaths[i][2] + 270));
+
+            fill(199, 25, 0, 150 - 30 * i)
+            noStroke();
+            rect(0, 0, this.size, this.size * 2);
+            
+            pop();
+            i > 5 ? this.prevDeaths.pop() : '';
+        }
 
     }
 
@@ -87,7 +101,7 @@ class Driver {
         fill(255);
         textAlign(CENTER, BASELINE);
         text(this.score, width / 2, height / 2 + 50);
-        text(linesControls, width / 2, height / 2 + 150);
+        // text(linesControls, width / 2, height / 2 + 150);
 
         this.ax = 0;
         this.ay = 0;

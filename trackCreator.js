@@ -12,6 +12,8 @@ class TrackCreator {
         this.trackPoints = [];
 
         this.hiddenUI = false;
+        this.creatingCheckpoints = false;
+        this.checkPointToggle = false;
     }
 
     makeButton(x, y) {
@@ -40,6 +42,7 @@ class TrackCreator {
             this.pickColor(3, 49, 3, width - colorSize * 4, colorSize, colorSize);       // green - grass
             this.pickColor(255, 255, 255, width - colorSize * 6, colorSize, colorSize);       // white - firstCheckpoint
             this.pickColor(200, 0, 126, width - colorSize * 8, colorSize, colorSize);       // pinkish - secondCheckpoint
+            this.createCheckpoint(width - colorSize * 10, colorSize, colorSize, colorSize * 2 + this.painterSize / 2, width - colorSize * 12 - this.painterSize / 2)
         }
 
         for (var i = 1; i < this.trackPoints.length; i++) {
@@ -51,7 +54,7 @@ class TrackCreator {
             ellipse(circleX, circleY, circleSize);
         }
         if (!this.hiddenUI) {
-            this.painter(colorSize * 2 + this.painterSize / 2, width - colorSize * 10 - this.painterSize / 2);
+            this.painter(colorSize * 2 + this.painterSize / 2, width - colorSize * 12 - this.painterSize / 2);
 
 
             fill(255, 0, 255);
@@ -69,18 +72,44 @@ class TrackCreator {
         rect(x, y, size * 2, size * 2);
 
         if (mouseX > x - size && mouseX < x + size && mouseY < size * 2 && mouseIsPressed) {
+            this.creatingCheckpoints ? this.painterSize = 25 : '';
+            this.creatingCheckpoints = false;
             this.r = r;
             this.g = g;
             this.b = b;
         }
     }
 
-    painter(boundryUp, boundryLeft, buttonRight, buttonDown) {
+    createCheckpoint(x, y, size, boundryUp, boundryLeft) {
+        rectMode(CENTER);
+        stroke(255);
+        strokeWeight(5);
+        fill(51, 255, 51);
+        rect(x, y, size * 2, size * 2);
+
+        if (mouseX > x - size && mouseX < x + size && mouseY < size * 2 && mouseIsPressed) {
+            this.creatingCheckpoints = true;
+            this.r = 51;
+            this.g = 255;
+            this.b = 51;
+            this.painterSize = 2;
+        }
+
+        onclick = (event) => { this.checkPointToggle = true };
+        if (!(mouseX > boundryLeft && mouseY < boundryUp) && !(mouseX < 175 && mouseY < 125)) {
+            if (this.creatingCheckpoints && mouseIsPressed && this.checkPointToggle) {
+                algo.lineCheckpoints.unshift([mouseX, mouseY]);
+                this.checkPointToggle = false;
+            }
+        }
+    }
+
+    painter(boundryUp, boundryLeft) {
         noStroke()
         fill(this.r, this.g, this.b);
         ellipse(mouseX, mouseY, this.painterSize);
 
-        if (mouseIsPressed && !(mouseX > boundryLeft && mouseY < boundryUp)) {
+        if (!this.creatingCheckpoints && mouseIsPressed && !(mouseX > boundryLeft && mouseY < boundryUp) && !(mouseX < 175 && mouseY < 125)) {
             this.trackPoints.push([mouseX, mouseY, this.painterSize, this.r, this.g, this.b]);
         };
     }

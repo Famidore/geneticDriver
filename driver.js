@@ -58,7 +58,7 @@ class Driver {
             fill(199, 25, 0, 150 - 30 * i)
             noStroke();
             rect(0, 0, this.size, this.size * 2);
-            
+
             pop();
             i > 5 ? this.prevDeaths.pop() : '';
         }

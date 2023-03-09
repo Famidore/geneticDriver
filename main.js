@@ -45,12 +45,12 @@ function draw() {
     driver.calculate();
     for (i in angles) {
       algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
-    }
-    track.updatePixels()
-
-
+    };
+    algo.checkCheckpoint();
+    track.updatePixels();
   } else {
     trackCreator.drawTrack();
+    algo.showCheckpoints();
     if (keyIsDown(90)) {
       trackCreator.trackPoints.pop();
     } else if (keyIsDown(85)) {
@@ -70,12 +70,9 @@ function windowResized() {
 function keyPressed() {
   if (keys.includes(key)) {
     controls[keys.indexOf(key)] = 1;
-  } else if (key == 'u') {
-    trackCreator.painterSize += 5;
-  } else if (key == 'j' && trackCreator.painterSize > 1) {
-    trackCreator.painterSize -= 5;
   } else if (key == 'q') {
     trackCreator.trackPoints = [];
+    algo.lineCheckpoints = [];
   } else if (key == 'r') {
     driver.death ? driver.prevDeaths.unshift([driver.x, driver.y, driver.angle]) : '';
     resetDrivers();

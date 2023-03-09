@@ -9,4 +9,7 @@ The pink and white colors are used to set checkpoints, if you are using more tha
 w, s, a, d - drive controls,  
 r - reset positions of the drivers,  
 u/j - make brush in track editor bigger/smaller,  
-z - hold to undo a move in editor.
+z - hold to undo a move in editor,
+q - clear canvas in track editor.
+# Play
+Visit and play at: https://famidore.github.io/geneticDriver/

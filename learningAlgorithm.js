@@ -40,15 +40,16 @@ class GenAlgo {
     }
 
     showCheckpoints() {
-        if (!trackCreator.hiddenUI) {
+        // if (!trackCreator.hiddenUI){
+        if (true) {
             for (let i = 0; i < this.lineCheckpoints.length - 1; i += 2) {
                 stroke(51, 255, 51);
                 strokeWeight(3);
                 if (this.lineCheckpoints.length % 2 == 0) {
-                    line(this.lineCheckpoints[i][0], this.lineCheckpoints[i][1], this.lineCheckpoints[i + 1][0], this.lineCheckpoints[i + 1][1])
+                    line(this.lineCheckpoints[i][0], this.lineCheckpoints[i][1], this.lineCheckpoints[i + 1][0], this.lineCheckpoints[i + 1][1]);
                 } else {
-                    line(this.lineCheckpoints[i + 1][0], this.lineCheckpoints[i + 1][1], this.lineCheckpoints[i + 2][0], this.lineCheckpoints[i + 2][1])
-                    line(this.lineCheckpoints[0][0], this.lineCheckpoints[0][1], mouseX, mouseY)
+                    line(this.lineCheckpoints[i + 1][0], this.lineCheckpoints[i + 1][1], this.lineCheckpoints[i + 2][0], this.lineCheckpoints[i + 2][1]);
+                    line(this.lineCheckpoints[0][0], this.lineCheckpoints[0][1], mouseX, mouseY);
                 }
             }
         }
@@ -67,11 +68,9 @@ class GenAlgo {
                 if ((lc1 != this.lastCheck[0][0] && lc2 != this.lastCheck[0][1]) && (lc1 != this.lastCheck[1][0] && lc2 != this.lastCheck[1][1])) {
 
                     this.lastCheck.unshift([lc1, lc2]);
-                    if (this.lastCheck.length > 2) {
-                        this.lastCheck.pop();
-                    }
-                    console.log(this.lastCheck);
-                    console.log('Passed checkpoint!')
+                    this.lastCheck.length > 2 ? this.lastCheck.pop() : '';
+
+                    console.log('Passed checkpoint!');
                 }
             }
         }
@@ -99,7 +98,7 @@ class GenAlgo {
 
 /*
 TODO
-find a way to clear each checkpoint without going back
+find a way to clear each checkpoint without going back - done
 interpolate points drawn when creating track
 implement reinforced learning :)
 */

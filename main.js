@@ -91,4 +91,6 @@ function resetDrivers() {
   driver.death = false;
   driver.angle = 0;
   driver.score = 0;
+
+  algo.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
 }

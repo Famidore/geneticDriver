@@ -57,12 +57,14 @@ class GenAlgo {
 
     checkCheckpoint() {
         const d1 = [driver.x, driver.y];
-        const d2 = [driver.x + 10, driver.y];
+        const d2 = [driver.x + 10, driver.y + 10];
 
         for (let i = 0; i < this.lineCheckpoints.length - 1; i += 2) {
             var lc1 = this.lineCheckpoints[i];
             var lc2 = this.lineCheckpoints[i + 1];
-            var inter = this.findIntersection(d1, d2, this.lineCheckpoints[i], this.lineCheckpoints[i + 1])
+            var inter = this.findIntersection(d1[0], d1[1], d2[0], d2[1], lc1[0], lc1[1], lc2[0], lc2[1])
+
+            ellipse(inter[0], inter[1], 25, 25)
 
             if (dist(d1[0], d1[1], inter[0], inter[1]) <= driver.size * 2) {
                 if ((lc1 != this.lastCheck[0][0] && lc2 != this.lastCheck[0][1]) && (lc1 != this.lastCheck[1][0] && lc2 != this.lastCheck[1][1])) {
@@ -77,21 +79,37 @@ class GenAlgo {
 
     }
 
-    findIntersection(p1, p2, p3, p4) {
-        const ua = ((p4[0] - p3[0]) * (p1[1] - p3[1]) -
-            (p4[1] - p3[1]) * (p1[0] - p3[0])) /
-            ((p4[1] - p3[1]) * (p2[0] - p1[0]) -
-                (p4[0] - p3[0]) * (p2[1] - p1[1]));
+    findIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
+        var uA, uB;
+        var den, numA, numB;
 
-        const ub = ((p2[0] - p1[0]) * (p1[1] - p3[1]) -
-            (p2[1] - p1[1]) * (p1[0] - p3[0])) /
-            ((p4[1] - p3[1]) * (p2[0] - p1[0]) -
-                (p4[0] - p3[0]) * (p2[1] - p1[1]));
+        den = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+        numA = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
+        numB = (x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3);
 
-        const x = p1[0] + ua * (p2[0] - p1[0]);
-        const y = p1[1] + ua * (p2[1] - p1[1]);
+        if (abs(numA) == 0 && abs(numB) == 0 && abs(den) == 0) {
+            var intx = (x1 + x2) / 2;
+            var inty = (y1 + y2) / 2;
+            return ([intx, inty]);
+        }
 
-        return [x, y]
+        if (abs(den) == 0) {
+            var intx = 0;
+            var inty = 0;
+            return ([intx, inty]);
+        }
+
+        uA = numA / den;
+        uB = numB / den;
+
+        if (uA < 0 || uA > 1 || uB < 0 || uB > 1) {
+            var intx = 0;
+            var inty = 0;
+            return ([intx, inty]);
+        }
+        var intx = x1 + uA * (x2 - x1);
+        var inty = y1 + uA * (y2 - y1);
+        return ([intx, inty]);
     }
 }
 

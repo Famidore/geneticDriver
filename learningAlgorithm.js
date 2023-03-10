@@ -4,7 +4,6 @@ class GenAlgo {
         this.lineCheckpoints = [];
 
         this.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
-
     }
 
     generateMoves(index) {
@@ -25,7 +24,7 @@ class GenAlgo {
             const px = carX + i * cos(radians(carAngle))
             const py = carY + i * sin(radians(carAngle))
 
-            if (track.get(px, py)[0] == 3) {
+            if (track.get(px, py)[0] == 3) { // change get to optimal func
                 stroke(255, 0, 255, 100);
                 strokeWeight(2);
                 line(0, 0, i, 0);
@@ -40,8 +39,7 @@ class GenAlgo {
     }
 
     showCheckpoints() {
-        // if (!trackCreator.hiddenUI){
-        if (true) {
+        if (!trackCreator.hiddenCheckpoints || !trackCreator.hiddenUI) {
             for (let i = 0; i < this.lineCheckpoints.length - 1; i += 2) {
                 stroke(51, 255, 51);
                 strokeWeight(3);
@@ -62,17 +60,20 @@ class GenAlgo {
         for (let i = 0; i < this.lineCheckpoints.length - 1; i += 2) {
             var lc1 = this.lineCheckpoints[i];
             var lc2 = this.lineCheckpoints[i + 1];
-            var inter = this.findIntersection(d1[0], d1[1], d2[0], d2[1], lc1[0], lc1[1], lc2[0], lc2[1])
+            var inter = this.findIntersection(d1[0], d1[1], d2[0], d2[1], lc1[0], lc1[1], lc2[0], lc2[1]);
 
-            ellipse(inter[0], inter[1], 25, 25)
+            if (inter) {
+                ellipse(inter[0], inter[1], 25, 25)
 
-            if (dist(d1[0], d1[1], inter[0], inter[1]) <= driver.size * 2) {
-                if ((lc1 != this.lastCheck[0][0] && lc2 != this.lastCheck[0][1]) && (lc1 != this.lastCheck[1][0] && lc2 != this.lastCheck[1][1])) {
+                if (dist(d1[0], d1[1], inter[0], inter[1]) <= driver.size * 2) {
+                    if ((lc1 != this.lastCheck[0][0] && lc2 != this.lastCheck[0][1]) && (lc1 != this.lastCheck[1][0] && lc2 != this.lastCheck[1][1])) {
 
-                    this.lastCheck.unshift([lc1, lc2]);
-                    this.lastCheck.length > 2 ? this.lastCheck.pop() : '';
+                        this.lastCheck.unshift([lc1, lc2]);
+                        this.lastCheck.length > 2 ? this.lastCheck.pop() : '';
 
-                    console.log('Passed checkpoint!');
+                        driver.heckPointScore++;
+                        console.log('Passed checkpoint!');
+                    }
                 }
             }
         }
@@ -94,18 +95,14 @@ class GenAlgo {
         }
 
         if (abs(den) == 0) {
-            var intx = 0;
-            var inty = 0;
-            return ([intx, inty]);
+            return (false);
         }
 
         uA = numA / den;
         uB = numB / den;
 
         if (uA < 0 || uA > 1 || uB < 0 || uB > 1) {
-            var intx = 0;
-            var inty = 0;
-            return ([intx, inty]);
+            return (false);
         }
         var intx = x1 + uA * (x2 - x1);
         var inty = y1 + uA * (y2 - y1);

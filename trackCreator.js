@@ -6,6 +6,7 @@ class TrackCreator {
 
         this.button;
         this.buttonSaving;
+        this.showChecks;
 
         this.painterSize = 50;
 
@@ -14,6 +15,7 @@ class TrackCreator {
         this.hiddenUI = false;
         this.creatingCheckpoints = false;
         this.checkPointToggle = false;
+        this.hiddenCheckpoints = true;
     }
 
     makeButton(x, y) {
@@ -26,6 +28,9 @@ class TrackCreator {
         this.buttonSaving.mouseClicked(this.saveTrack);
         this.buttonSaving.mouseOver(() => (toggleCreator) ? this.hiddenUI = true : this.hiddenUI = false);
 
+        this.button = createButton('Checkpoints');
+        this.button.position(x, y + 50);
+        this.button.mouseClicked(() => (this.hiddenCheckpoints = !this.hiddenCheckpoints));
     }
 
     initialize() {
@@ -45,13 +50,18 @@ class TrackCreator {
             this.createCheckpoint(width - colorSize * 10, colorSize, colorSize, colorSize * 2 + this.painterSize / 2, width - colorSize * 12 - this.painterSize / 2)
         }
 
-        for (var i = 1; i < this.trackPoints.length; i++) {
+        for (var i = 1; i < this.trackPoints.length - 1; i++) {
             var red = this.trackPoints[i][3]; var green = this.trackPoints[i][4]; var blue = this.trackPoints[i][5];
             var circleX = this.trackPoints[i][0]; var circleY = this.trackPoints[i][1]; var circleSize = this.trackPoints[i][2];
 
             fill(red, green, blue);
             noStroke();
             ellipse(circleX, circleY, circleSize);
+            if (dist(circleX, circleY, this.trackPoints[i - 1][0], this.trackPoints[i - 1][1]) < circleSize * 2) {
+                stroke(red, green, blue);
+                strokeWeight(circleSize);
+                line(circleX, circleY, this.trackPoints[i - 1][0], this.trackPoints[i - 1][1]);
+            }
         }
         if (!this.hiddenUI) {
             this.painter(colorSize * 2 + this.painterSize / 2, width - colorSize * 12 - this.painterSize / 2);
@@ -96,7 +106,7 @@ class TrackCreator {
         }
 
         onclick = (event) => { this.checkPointToggle = true };
-        if (!(mouseX > boundryLeft && mouseY < boundryUp) && !(mouseX < 175 && mouseY < 125)) {
+        if (!(mouseX > boundryLeft && mouseY < boundryUp) && !(mouseX < 175 && mouseY < 150)) {
             if (this.creatingCheckpoints && mouseIsPressed && this.checkPointToggle) {
                 algo.lineCheckpoints.unshift([mouseX, mouseY]);
                 this.checkPointToggle = false;
@@ -143,9 +153,7 @@ class TrackCreator {
 
             driver.prevDeaths = [];
         }
+
+        track.loadPixels();
     }
-
-
-
-
 }

@@ -19,6 +19,7 @@ class Driver {
 
         this.loopCheck = false;
         this.score = 0;
+        this.checkPointScore = 0;
         this.death = false;
 
         this.carColor = color(100, 0, 0, 0);
@@ -96,6 +97,7 @@ class Driver {
         this.x += this.vx;
         this.y += this.vy;
 
+        strokeWeight(2);
         textSize(64);
         stroke(51);
         fill(255);

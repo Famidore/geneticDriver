@@ -6,7 +6,7 @@ let algo;
 let toggleCreator = false;
 let driverStart = [300, 100];
 let linesControls = [0, 0, 0, 0, 0, 0];
-const angles = [45, 0, 315, 225, 180, 135];
+const angles = [45, 0, 315]; // 225, 180, 135
 
 
 const agentCount = 1;
@@ -33,13 +33,14 @@ function setup() {
 
   rectMode(CENTER);
   trackCreator.makeButton(25, 25);
+
+  track.loadPixels();
 }
 
 function draw() {
 
   background(track);
   if (!toggleCreator) {
-    track.loadPixels();
     driver.checkPath();
     driver.show();
     driver.calculate();
@@ -47,7 +48,7 @@ function draw() {
       algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
     };
     algo.checkCheckpoint();
-    track.updatePixels();
+    algo.showCheckpoints();
   } else {
     trackCreator.drawTrack();
     algo.showCheckpoints();

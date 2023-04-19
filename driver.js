@@ -102,8 +102,8 @@ class Driver {
         stroke(51);
         fill(255);
         textAlign(CENTER, BASELINE);
-        text(this.score, width / 2, height / 2 + 50);
-        // text(linesControls, width / 2, height / 2 + 150);
+        text(this.score, width / 2, height / 2 + 25);
+        text(RL.tries, width / 2, height / 2 + 100);
 
         this.ax = 0;
         this.ay = 0;

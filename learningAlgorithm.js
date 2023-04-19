@@ -6,9 +6,6 @@ class GenAlgo {
         this.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
     }
 
-    generateMoves(index) {
-    }
-
     saveMoves() {
         let json = {};
         json.generation = this.generation;
@@ -63,7 +60,7 @@ class GenAlgo {
             var inter = this.findIntersection(d1[0], d1[1], d2[0], d2[1], lc1[0], lc1[1], lc2[0], lc2[1]);
 
             if (inter) {
-                ellipse(inter[0], inter[1], 25, 25)
+                //ellipse(inter[0], inter[1], 25, 25)
 
                 if (dist(d1[0], d1[1], inter[0], inter[1]) <= driver.size * 2) {
                     if ((lc1 != this.lastCheck[0][0] && lc2 != this.lastCheck[0][1]) && (lc1 != this.lastCheck[1][0] && lc2 != this.lastCheck[1][1])) {
@@ -71,13 +68,12 @@ class GenAlgo {
                         this.lastCheck.unshift([lc1, lc2]);
                         this.lastCheck.length > 2 ? this.lastCheck.pop() : '';
 
-                        driver.heckPointScore++;
+                        driver.checkPointScore++;
                         console.log('Passed checkpoint!');
                     }
                 }
             }
         }
-
     }
 
     findIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
@@ -104,6 +100,7 @@ class GenAlgo {
         if (uA < 0 || uA > 1 || uB < 0 || uB > 1) {
             return (false);
         }
+
         var intx = x1 + uA * (x2 - x1);
         var inty = y1 + uA * (y2 - y1);
         return ([intx, inty]);
@@ -114,6 +111,24 @@ class GenAlgo {
 /*
 TODO
 find a way to clear each checkpoint without going back - done
-interpolate points drawn when creating track
+interpolate points drawn when creating track - done
 implement reinforced learning :)
 */
+
+class Learning {
+    constructor(learningRate) {
+        this.learningRate = learningRate;
+        this.tries = 0;
+    }
+
+
+    performAction(move) {
+        if (driver.death) {
+            driver.prevDeaths.unshift([driver.x, driver.y, driver.angle]);
+            resetDrivers();
+            this.tries++;
+        }
+
+        return move == 's' ? 'w' : move
+    }
+}

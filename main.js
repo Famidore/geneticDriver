@@ -3,6 +3,7 @@ let driver;
 let track;
 let trackCreator;
 let algo;
+let RL;
 let toggleCreator = false;
 let driverStart = [300, 100];
 let linesControls = [0, 0, 0, 0, 0, 0];
@@ -28,6 +29,7 @@ function setup() {
 
   trackCreator = new TrackCreator();
   algo = new GenAlgo([]);
+  RL = new Learning(0.01);
 
   driver = new Driver(driverStart[0], driverStart[1], 12);
 
@@ -43,7 +45,7 @@ function draw() {
   if (!toggleCreator) {
     driver.checkPath();
     driver.show();
-    driver.calculate();
+    driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
     for (i in angles) {
       algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
     };

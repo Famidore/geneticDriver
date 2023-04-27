@@ -107,14 +107,6 @@ class GenAlgo {
     }
 }
 
-
-/*
-TODO
-find a way to clear each checkpoint without going back - done
-interpolate points drawn when creating track - done
-implement reinforced learning :)
-*/
-
 class Learning {
     constructor(learningRate) {
         this.learningRate = learningRate;

@@ -123,4 +123,8 @@ class Driver {
             default: this.carColor = color(180, 25, 255, 150); break;
         }
     }
+
+    sendInputs(){
+        return [this.x, this.y, this.angle, this.vx, this.vy]
+    }
 }

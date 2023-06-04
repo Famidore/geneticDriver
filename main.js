@@ -1,5 +1,3 @@
-
-
 let scores = [];
 let driver;
 let track;
@@ -10,9 +8,6 @@ let toggleCreator = false;
 let driverStart = [300, 100];
 let linesControls = [0, 0, 0, 0, 0, 0];
 const angles = [45, 0, 315]; // 225, 180, 135
-
-
-
 
 const agentCount = 1;
 
@@ -26,7 +21,7 @@ function preload() {
 
 function setup() {
 
-  
+
   frameRate(60);
 
   createCanvas(windowWidth, windowHeight);
@@ -51,14 +46,18 @@ function draw() {
   if (!toggleCreator) {
     driver.checkPath();
     driver.show();
-    driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
+
+    academy.step([{ teacherName: teacher, agentsInput: driver.sendInputs() }]);
+
+    // driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
+    driver.calculate();
     for (i in angles) {
       algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
     };
 
-    let inputs = [actor.x, actor.y, target.x, target.y]
+    // let inputs = [actor.x, actor.y, target.x, target.y]
 
-    print(result)
+    // print(result)
 
 
     algo.checkCheckpoint();

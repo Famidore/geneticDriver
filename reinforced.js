@@ -1,12 +1,9 @@
-// import { NeuralNetwork, Model, Academy } from "reimprovejs/dist/reimprove.js"
-
-
-const modelFitConfig = {              
-    epochs: 1,                        
+const modelFitConfig = {
+    epochs: 1,
     stepsPerEpoch: 16
 };
 
-const numActions = 2;
+const numActions = 3;
 const inputSize = 100;
 const temporalWindow = 1;
 
@@ -14,6 +11,7 @@ const temporalWindow = 1;
 const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
 
 const network = new ReImprove.NeuralNetwork();
+
 network.InputShape = [totalInputSize];
 network.addNeuralNetworkLayers([
     { type: 'dense', units: 32, activation: 'relu' },
@@ -60,6 +58,7 @@ function OnSpecialBadEvent() {
 
 function processInputs(inputs) {
 
-    let result = academy.step([{ teacherName: teacher, agentsInput: inputs }])
+    let results = academy.step([{ teacherName: teacher, agentsInput: inputs }])
+    print(results)
     return results
 }

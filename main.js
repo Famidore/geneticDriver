@@ -5,9 +5,11 @@ let trackCreator;
 let algo;
 let RL;
 let toggleCreator = false;
-let driverStart = [300, 100];
+let driverStart = [225, 200];
 let linesControls = [0, 0, 0, 0, 0, 0];
 const angles = [45, 0, 315]; // 225, 180, 135
+
+let deathCounter = 0;
 
 const agentCount = 1;
 
@@ -19,7 +21,7 @@ let controls = [0, 0, 0, 0];
 const keys = ['w', 's', 'a', 'd'];
 
 function preload() {
-  track = loadImage('assets/track.png');
+  track = loadImage('assets/trackv2.png');
   carModelPath = loadImage('assets/pixel_car.png');
 }
 
@@ -49,7 +51,7 @@ function setup() {
     stepsPerEpoch: 16
   };
 
-  const numActions = 3;
+  const numActions = 4;
   const inputSize = 6;
   const temporalWindow = 3;
 
@@ -160,7 +162,7 @@ function resetDrivers() {
   driver.x = driverStart[0];
   driver.y = driverStart[1];
   driver.death = false;
-  driver.angle = 0;
+  driver.angle = 290;
   driver.score = 0;
 
   algo.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
@@ -169,12 +171,12 @@ function resetDrivers() {
 // reimproveJS
 
 function OnSpecialGoodEvent(award) {
-  console.log("GOOD ROBOT");
+  // console.log("GOOD ROBOT");
   academy.addRewardToAgent(agent, award);
 }
 
 function OnSpecialBadEvent() {
-  console.log("BAD ROBOT!");
+  // console.log("BAD ROBOT!");
   academy.addRewardToAgent(agent, -1.0);
 }
 

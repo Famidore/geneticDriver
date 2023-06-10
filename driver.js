@@ -5,7 +5,7 @@ class Driver {
 
         this.size = tempSize;
 
-        this.angle = 0;
+        this.angle = 290;
         this.vx = 0;
         this.vy = 0;
         this.ax = 0;
@@ -103,7 +103,7 @@ class Driver {
         fill(255);
         textAlign(CENTER, BASELINE);
         text(this.score, width / 2, height / 2 + 25);
-        text(RL.tries, width / 2, height / 2 + 100);
+        text(deathCounter, width / 2, height / 2 + 100);
 
         this.ax = 0;
         this.ay = 0;
@@ -117,7 +117,7 @@ class Driver {
 
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
-            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; OnSpecialBadEvent(); resetDrivers(); break;
+            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; OnSpecialBadEvent(); deathCounter++; resetDrivers(); break;
             case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
             case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
             default: this.carColor = color(180, 25, 255, 150); break;

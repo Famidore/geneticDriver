@@ -68,21 +68,21 @@ class Driver {
 
     calculate(order) {
         if (!this.death) {
-            if (controls[0] || order == 'w') {
+            if (controls[0] || order == 'w' || order == 0) {
                 this.ay += sin(radians(this.angle));
                 this.ax += cos(radians(this.angle));
             };
-            if (controls[1] || order == 's') {
+            if (controls[1] || order == 's' || order == 1) {
                 this.ay -= sin(radians(this.angle));
                 this.ax -= cos(radians(this.angle));
             };
-            if (controls[2] || order == 'a') {
+            if (controls[2] || order == 'a' || order == 2) {
                 this.angle -= this.angleForce;
                 if (this.angle < 0) {
                     this.angle = 360;
                 };
             };
-            if (controls[3] || order == 'd') {
+            if (controls[3] || order == 'd' || order == 3) {
                 this.angle += this.angleForce;
                 if (this.angle > 360) {
                     this.angle = 0;
@@ -117,9 +117,9 @@ class Driver {
 
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
-            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; break;
-            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++) : false; break;
-            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++) : false; break;
+            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; OnSpecialBadEvent(); break;
+            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
+            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
             default: this.carColor = color(180, 25, 255, 150); break;
         }
     }

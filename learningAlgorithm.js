@@ -70,6 +70,7 @@ class GenAlgo {
 
                         driver.checkPointScore++;
                         console.log('Passed checkpoint!');
+                        OnSpecialGoodEvent(1.0)
                     }
                 }
             }

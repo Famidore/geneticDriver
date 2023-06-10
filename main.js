@@ -11,12 +11,16 @@ const angles = [45, 0, 315]; // 225, 180, 135
 
 const agentCount = 1;
 
+let academy;
+let teacher;
+let agent;
+
 let controls = [0, 0, 0, 0];
 const keys = ['w', 's', 'a', 'd'];
 
 function preload() {
-  track = loadImage('assets/track.png')
-  carModelPath = loadImage('assets/pixel_car.png')
+  track = loadImage('assets/track.png');
+  carModelPath = loadImage('assets/pixel_car.png');
 }
 
 function setup() {
@@ -38,6 +42,59 @@ function setup() {
   trackCreator.makeButton(25, 25);
 
   track.loadPixels();
+
+  // reimproveJS setup
+  const modelFitConfig = {
+    epochs: 1,
+    stepsPerEpoch: 16
+  };
+
+  const numActions = 3;
+  const inputSize = 100;
+  const temporalWindow = 1;
+
+
+  const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
+
+  const network = new ReImprove.NeuralNetwork();
+
+  network.InputShape = [totalInputSize];
+  network.addNeuralNetworkLayers([
+    { type: 'dense', units: 32, activation: 'relu' },
+    { type: 'dense', units: numActions, activation: 'softmax' }
+  ]);
+
+  const model = new ReImprove.Model.FromNetwork(network, modelFitConfig);
+
+  model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
+
+
+  const teacherConfig = {
+    lessonsQuantity: 10,
+    lessonsLength: 100,
+    lessonsWithRandom: 2,
+    epsilon: 1,
+    epsilonDecay: 0.995,
+    epsilonMin: 0.05,
+    gamma: 0.8
+  };
+
+  const agentConfig = {
+    model: model,
+    agentConfig: {
+      memorySize: 5000,
+      batchSize: 128,
+      temporalWindow: temporalWindow
+    }
+  };
+
+  academy = new ReImprove.Academy();
+  teacher = academy.addTeacher(teacherConfig);
+  agent = academy.addAgent(agentConfig);
+
+  academy.assignTeacherToAgent(agent, teacher);
+
+  // reimproveIS setup/
 }
 
 function draw() {
@@ -47,18 +104,21 @@ function draw() {
     driver.checkPath();
     driver.show();
 
-    academy.step([{ teacherName: teacher, agentsInput: driver.sendInputs() }]);
-
     // driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
-    driver.calculate();
+
+    step().then(result => {
+      console.log(result)
+      driver.calculate(result);
+    }).catch(error => {
+      console.log(error)
+    });
+
+
+
+    
     for (i in angles) {
       algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
     };
-
-    // let inputs = [actor.x, actor.y, target.x, target.y]
-
-    // print(result)
-
 
     algo.checkCheckpoint();
     algo.showCheckpoints();
@@ -73,13 +133,18 @@ function draw() {
       trackCreator.painterSize -= 2;
     }
   }
+  // reimproveJS
+
+  //step();
+
+  //print(step())
+
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   track.resize(windowWidth, windowHeight);
 }
-
 
 function keyPressed() {
   if (keys.includes(key)) {
@@ -107,4 +172,28 @@ function resetDrivers() {
   driver.score = 0;
 
   algo.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
+}
+
+// reimproveJS
+
+function OnSpecialGoodEvent(award) {
+  academy.addRewardToAgent(agent, award)
+}
+
+function OnSpecialBadEvent() {
+  academy.addRewardToAgent(agent, -1.0)
+}
+
+function getInputs(){
+ return [driver.x, driver.y, driver.vx, driver.vy]
+}
+
+async function step() {
+  let inputs = getInputs();
+  
+  let result = await academy.step([{teacherName: teacher, agentsInput: inputs}]);
+
+  let ord = result.get(agent);
+
+  return ord
 }

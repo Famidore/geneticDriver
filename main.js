@@ -132,11 +132,7 @@ function draw() {
     } else if (keyIsDown(74) && trackCreator.painterSize > 1) {
       trackCreator.painterSize -= 2;
     }
-
   }
-  // reimproveJS
-
-  //print(linesControls)
 }
 
 function windowResized() {

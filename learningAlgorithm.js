@@ -21,7 +21,7 @@ class GenAlgo {
             const px = carX + i * cos(radians(carAngle))
             const py = carY + i * sin(radians(carAngle))
 
-            if (track.get(px, py)[0] == 3) { // change get to optimal func
+            if (track.get(px, py)[0] == 3 && track.get(px, py)[1] == 49) { // change get to optimal func
                 stroke(255, 0, 255, 100);
                 strokeWeight(2);
                 line(0, 0, i, 0);
@@ -31,6 +31,7 @@ class GenAlgo {
                 linesControls[ind] = i;
                 break;
             };
+            linesControls[ind] = 999;
         };
         pop();
     }

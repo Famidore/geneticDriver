@@ -6,7 +6,7 @@ let algo;
 let RL;
 let toggleCreator = false;
 let driverStart = [225, 200];
-let linesControls = [0, 0, 0, 0, 0, 0];
+let linesControls = [0, 0, 0];
 const angles = [45, 0, 315]; // 225, 180, 135
 
 let deathCounter = 0;
@@ -48,11 +48,11 @@ function setup() {
   // reimproveJS setup
   const modelFitConfig = {
     epochs: 1,
-    stepsPerEpoch: 16
+    stepsPerEpoch: 60
   };
 
-  const numActions = 4;
-  const inputSize = 6;
+  const numActions = 5;
+  const inputSize = 8;
   const temporalWindow = 3;
 
 
@@ -72,19 +72,19 @@ function setup() {
 
 
   const teacherConfig = {
-    lessonsQuantity: 10000,
-    lessonsLength: 20,
-    lessonsWithRandom: 2,
-    epsilon: 1,
+    lessonsQuantity: 1000,
+    lessonLength: 600,
+    lessonsWithRandom: 0,
+    epsilon: 0.6,
     epsilonDecay: 0.995,
     epsilonMin: 0.05,
-    gamma: 0.8
+    gamma: 0.7
   };
 
   const agentConfig = {
     model: model,
     agentConfig: {
-      memorySize: 5000,
+      memorySize: 1000,
       batchSize: 128,
       temporalWindow: temporalWindow
     }
@@ -100,12 +100,11 @@ function setup() {
 }
 
 function draw() {
-
+  // noLoop();
   background(track);
   if (!toggleCreator) {
     driver.checkPath();
     driver.show();
-
     // driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
 
     step().then(result => {
@@ -121,6 +120,8 @@ function draw() {
 
     algo.checkCheckpoint();
     algo.showCheckpoints();
+
+    keepDistance(linesControls);
   } else {
     trackCreator.drawTrack();
     algo.showCheckpoints();
@@ -131,8 +132,11 @@ function draw() {
     } else if (keyIsDown(74) && trackCreator.painterSize > 1) {
       trackCreator.painterSize -= 2;
     }
+
   }
   // reimproveJS
+
+  //print(linesControls)
 }
 
 function windowResized() {
@@ -161,8 +165,10 @@ function keyReleased() {
 function resetDrivers() {
   driver.x = driverStart[0];
   driver.y = driverStart[1];
+  driver.vx = 0;
+  driver.vy = 0;
   driver.death = false;
-  driver.angle = 290;
+  driver.angle = 300;
   driver.score = 0;
 
   algo.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
@@ -175,19 +181,15 @@ function OnSpecialGoodEvent(award) {
   academy.addRewardToAgent(agent, award);
 }
 
-function OnSpecialBadEvent() {
+function OnSpecialBadEvent(award) {
   // console.log("BAD ROBOT!");
-  academy.addRewardToAgent(agent, -1.0);
-}
-
-function getInputs(){
- return [driver.x, driver.y, driver.vx, driver.vy]
+  academy.addRewardToAgent(agent, award);
 }
 
 async function step() {
-  let inputs = linesControls;
-  
-  let result = await academy.step([{teacherName: teacher, agentsInput: inputs}]);
+  let inputs = linesControls.concat([driver.x, driver.y, driver.vx, driver.vy, driver.angle]);
+
+  let result = await academy.step([{ teacherName: teacher, agentsInput: inputs }]);
 
   let ord = result.get(agent);
 

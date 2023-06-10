@@ -5,7 +5,7 @@ class Driver {
 
         this.size = tempSize;
 
-        this.angle = 290;
+        this.angle = 300;
         this.vx = 0;
         this.vy = 0;
         this.ax = 0;
@@ -13,7 +13,7 @@ class Driver {
 
 
         // hiperParameters zone!
-        this.speedVar = 0.35;
+        this.speedVar = 0.3;
         this.dampForce = 1.07;
         this.angleForce = 3;
 
@@ -68,7 +68,7 @@ class Driver {
 
     calculate(order) {
         if (!this.death) {
-            if (controls[0] || order == 'w' || order == 0) {
+            if (controls[0] || order == 'w' || order == 0 || order == 3 || order == 4) {
                 this.ay += sin(radians(this.angle));
                 this.ax += cos(radians(this.angle));
             };
@@ -76,13 +76,13 @@ class Driver {
                 this.ay -= sin(radians(this.angle));
                 this.ax -= cos(radians(this.angle));
             };
-            if (controls[2] || order == 'a' || order == 2) {
+            if (controls[2] || order == 'a' || order == 1 || order == 3) {
                 this.angle -= this.angleForce;
                 if (this.angle < 0) {
                     this.angle = 360;
                 };
             };
-            if (controls[3] || order == 'd' || order == 3) {
+            if (controls[3] || order == 'd' || order == 2 || order == 4) {
                 this.angle += this.angleForce;
                 if (this.angle > 360) {
                     this.angle = 0;
@@ -117,14 +117,10 @@ class Driver {
 
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
-            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; OnSpecialBadEvent(); deathCounter++; resetDrivers(); break;
-            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
-            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
+            case 3: this.carColor = color(180, 25, 0, 150); this.prevDeaths.unshift([this.x, this.y, this.angle]); this.death = true; OnSpecialBadEvent(-5.0); deathCounter++; resetDrivers(); break;
+            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; OnSpecialBadEvent(-2.0); break;
+            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; OnSpecialBadEvent(-2.0); break;
             default: this.carColor = color(180, 25, 255, 150); break;
         }
-    }
-
-    sendInputs(){
-        return [this.x, this.y, this.angle, this.vx, this.vy]
     }
 }

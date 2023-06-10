@@ -50,8 +50,8 @@ function setup() {
   };
 
   const numActions = 3;
-  const inputSize = 100;
-  const temporalWindow = 1;
+  const inputSize = 6;
+  const temporalWindow = 3;
 
 
   const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
@@ -70,8 +70,8 @@ function setup() {
 
 
   const teacherConfig = {
-    lessonsQuantity: 10,
-    lessonsLength: 100,
+    lessonsQuantity: 10000,
+    lessonsLength: 20,
     lessonsWithRandom: 2,
     epsilon: 1,
     epsilonDecay: 0.995,
@@ -107,15 +107,12 @@ function draw() {
     // driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
 
     step().then(result => {
-      console.log(result)
+      // console.log(result)
       driver.calculate(result);
     }).catch(error => {
       console.log(error)
     });
 
-
-
-    
     for (i in angles) {
       algo.generateLines(200, driver.x, driver.y, driver.angle + angles[i], i)
     };
@@ -134,11 +131,6 @@ function draw() {
     }
   }
   // reimproveJS
-
-  //step();
-
-  //print(step())
-
 }
 
 function windowResized() {
@@ -177,11 +169,13 @@ function resetDrivers() {
 // reimproveJS
 
 function OnSpecialGoodEvent(award) {
-  academy.addRewardToAgent(agent, award)
+  console.log("GOOD ROBOT");
+  academy.addRewardToAgent(agent, award);
 }
 
 function OnSpecialBadEvent() {
-  academy.addRewardToAgent(agent, -1.0)
+  console.log("BAD ROBOT!");
+  academy.addRewardToAgent(agent, -1.0);
 }
 
 function getInputs(){
@@ -189,7 +183,7 @@ function getInputs(){
 }
 
 async function step() {
-  let inputs = getInputs();
+  let inputs = linesControls;
   
   let result = await academy.step([{teacherName: teacher, agentsInput: inputs}]);
 

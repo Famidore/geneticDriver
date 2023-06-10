@@ -72,7 +72,7 @@ class Driver {
                 this.ay += sin(radians(this.angle));
                 this.ax += cos(radians(this.angle));
             };
-            if (controls[1] || order == 's' || order == 1) {
+            if (controls[1] || order == 's') {
                 this.ay -= sin(radians(this.angle));
                 this.ax -= cos(radians(this.angle));
             };
@@ -117,7 +117,7 @@ class Driver {
 
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
-            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; OnSpecialBadEvent(); break;
+            case 3: this.carColor = color(180, 25, 0, 150); this.death = true; OnSpecialBadEvent(); resetDrivers(); break;
             case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
             case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, OnSpecialGoodEvent(2.0)) : false; break;
             default: this.carColor = color(180, 25, 255, 150); break;

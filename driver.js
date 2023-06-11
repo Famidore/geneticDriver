@@ -117,9 +117,9 @@ class Driver {
 
         switch (currColor) {
             case 0: this.carColor = color(25, 255, 0, 150); break;
-            case 3: this.carColor = color(180, 25, 0, 150); this.prevDeaths.unshift([this.x, this.y, this.angle]); this.prevDeaths.length > 2 ? newDeath(this.prevDeaths[1][0], this.prevDeaths[1][1], this.x, this.y) : ''; this.death = true; OnSpecialBadEvent(-1.0); deathCounter++; resetDrivers(); break;
-            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, OnSpecialGoodEvent(0.2)) : false; break;
-            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, OnSpecialGoodEvent(0.2)) : false; break;
+            case 3: this.carColor = color(180, 25, 0, 150); this.prevDeaths.unshift([this.x, this.y, this.angle]); this.prevDeaths.length > 2 ? newDeath(this.prevDeaths[1][0], this.prevDeaths[1][1], this.x, this.y) : ''; this.death = true; award -= 10.0; deathCounter++; resetDrivers(); break;
+            case 255: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 0) ? (true, this.score++, award += 5.0) : false; break;
+            case 200: this.carColor = color(10, 25, 255, 150); this.loopCheck = (!this.loopCheck && this.score % 2 == 1) ? (true, this.score++, award += 5.0) : false; break;
             default: this.carColor = color(180, 25, 255, 150); break;
         }
     }

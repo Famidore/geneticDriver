@@ -6,8 +6,10 @@ let algo;
 let RL;
 let toggleCreator = false;
 let driverStart = [225, 200];
-let linesControls = [0, 0, 0, 0];
-const angles = [45, 135, 315, 225]; // 225, 180, 135
+let linesControls = [0, 0, 0];
+const angles = [45, 0, 315]; // 225, 180, 135
+
+let deathTimer = 0;
 
 let deathCounter = 0;
 
@@ -17,11 +19,13 @@ let academy;
 let teacher;
 let agent;
 
+let award = 0;
+
 let controls = [0, 0, 0, 0];
 const keys = ['w', 's', 'a', 'd'];
 
 function preload() {
-  track = loadImage('assets/trackv2.png');
+  track = loadImage('assets/trackv3.png');
   carModelPath = loadImage('assets/pixel_car.png');
 }
 
@@ -52,8 +56,8 @@ function setup() {
   };
 
   const numActions = 6;
-  const inputSize = angles.length;
-  const temporalWindow = 100;
+  const inputSize = angles.length + 4;
+  const temporalWindow = 2;
 
 
   const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
@@ -72,19 +76,19 @@ function setup() {
 
 
   const teacherConfig = {
-    lessonsQuantity: 100000,
+    lessonsQuantity: 10000,
     lessonLength: 300,
     lessonsWithRandom: 0,
-    epsilon: 0.9,
+    epsilon: 0.5,
     epsilonDecay: 0.995,
     epsilonMin: 0.05,
-    gamma: 0.7
+    gamma: 0.5
   };
 
   const agentConfig = {
     model: model,
     agentConfig: {
-      memorySize: 1000,
+      memorySize: 5000,
       batchSize: 128,
       temporalWindow: temporalWindow
     }
@@ -100,6 +104,7 @@ function setup() {
 }
 
 function draw() {
+  // award = 0;
   // noLoop();
   background(track);
   if (!toggleCreator) {
@@ -107,6 +112,7 @@ function draw() {
     driver.show();
     // driver.calculate(RL.performAction(keys[Math.floor(Math.random() * keys.length)]));
 
+    deathTimer++;
     step().then(result => {
       // console.log(result)
       driver.calculate(result);
@@ -121,7 +127,10 @@ function draw() {
     algo.checkCheckpoint();
     algo.showCheckpoints();
 
-    // keepDistance(linesControls);
+    timePoints(deathTimer);
+    keepDistance(linesControls);
+    velocityPoints(driver.vx, driver.vy);
+    academy.addRewardToAgent(agent, award);
   } else {
     trackCreator.drawTrack();
     algo.showCheckpoints();
@@ -133,6 +142,9 @@ function draw() {
       trackCreator.painterSize -= 2;
     }
   }
+
+  // console.log(award)
+  
 }
 
 function windowResized() {
@@ -166,26 +178,17 @@ function resetDrivers() {
   driver.death = false;
   driver.angle = 300;
   driver.score = 0;
+  deathTimer = 0;
+
+  console.log(award)
+  award = 0
 
   algo.lastCheck = [[[0, 0], [0, 0]], [[0, 0], [0, 0]]];
-}
-
-// reimproveJS
-
-function OnSpecialGoodEvent(award) {
-  // console.log("GOOD ROBOT");
-  academy.addRewardToAgent(agent, award);
-}
-
-function OnSpecialBadEvent(award) {
-  // console.log("BAD ROBOT!");
-  academy.addRewardToAgent(agent, award);
-  
+  // console.log('crash')
 }
 
 async function step() {
-  // .concat([driver.x, driver.y, driver.vx, driver.vy, driver.angle])
-  let inputs = linesControls;
+  let inputs = linesControls.concat([driver.x, driver.y, driver.vx, driver.vy]);
 
   let result = await academy.step([{ teacherName: teacher, agentsInput: inputs }]);
 

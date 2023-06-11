@@ -6,8 +6,8 @@ let algo;
 let RL;
 let toggleCreator = false;
 let driverStart = [225, 200];
-let linesControls = [0, 0, 0];
-const angles = [45, 0, 315]; // 225, 180, 135
+let linesControls = [0, 0, 0, 0];
+const angles = [45, 135, 315, 225]; // 225, 180, 135
 
 let deathCounter = 0;
 
@@ -51,9 +51,9 @@ function setup() {
     stepsPerEpoch: 60
   };
 
-  const numActions = 5;
-  const inputSize = 8;
-  const temporalWindow = 3;
+  const numActions = 6;
+  const inputSize = angles.length;
+  const temporalWindow = 100;
 
 
   const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
@@ -72,10 +72,10 @@ function setup() {
 
 
   const teacherConfig = {
-    lessonsQuantity: 1000,
-    lessonLength: 600,
+    lessonsQuantity: 100000,
+    lessonLength: 300,
     lessonsWithRandom: 0,
-    epsilon: 0.6,
+    epsilon: 0.9,
     epsilonDecay: 0.995,
     epsilonMin: 0.05,
     gamma: 0.7
@@ -121,7 +121,7 @@ function draw() {
     algo.checkCheckpoint();
     algo.showCheckpoints();
 
-    keepDistance(linesControls);
+    // keepDistance(linesControls);
   } else {
     trackCreator.drawTrack();
     algo.showCheckpoints();
@@ -180,10 +180,12 @@ function OnSpecialGoodEvent(award) {
 function OnSpecialBadEvent(award) {
   // console.log("BAD ROBOT!");
   academy.addRewardToAgent(agent, award);
+  
 }
 
 async function step() {
-  let inputs = linesControls.concat([driver.x, driver.y, driver.vx, driver.vy, driver.angle]);
+  // .concat([driver.x, driver.y, driver.vx, driver.vy, driver.angle])
+  let inputs = linesControls;
 
   let result = await academy.step([{ teacherName: teacher, agentsInput: inputs }]);
 

@@ -32,13 +32,13 @@ Nasze narzędzie symulacyjne umożliwia tworzenie dowolnych torów jazdy poprzez
 1. narysowania dowolnego kształtu w kolorze czarnym będącym torem jazdy (wyboru koloru można dokonać poprzez wybranie go z dostępnej palety kolorów w prawym górnym rogu)
 2. Narysowania linii mety w kolorze białym lub różowym (musi się ona znajdować w obrębie narysowanego czarnego kształtu). Punkt startowy dla pojazdu jest określony z góry w miejscu napisu `Start`, więc należy tak narysować kształt, by miejsce startowe znajdowało się w jego obrębie. Przejeżdzając przez nie pojazd otrzymuje punkty, których licznik widnieje na środku ekranu.
 4. Narysowania dowolnej liczby punktów kontrolnych w postaci linii o kolorze jasnozielonym, za których przekroczenie pojazd będzie nagradzany w procesie uczenia.Wielkość pędzla do rysowania można zmieniać za pomocą klawiszy `u` oraz `j`. Po skończeniu rysowania toru należy wcisnąć przycisk `Save!` aby rozpocząć symulację.<br>
-<img src="assets/../trackv3.png"><br>
+![Rys.1 Przykład toru jazdy utworzonego przez użytkownika](assets/../../assets/trackv3.png "Rys.1 Przykład toru jazdy utworzonego przez użytkownika")<br>
 <i>Rys.1 Przykład toru jazdy utworzonego przez użytkownika </i> <br>
 
 ### 2. Zaprojektowanie pojazdu
 Rozmiar oraz wygląd pojazdu jest ustalony z góry, aby uniemożliwić sytuację, w której pojazd byłby większy od szerokości toru (przy tworzeniu toru jest ustawiona minimalna grubość pędzla do rysowania). <br>
 
-<img src="assets/../pixel_car.png"><br>
+![Rys.2 Model pojazdu](assets/../../assets/pixel_car.png "Rys.2 Model pojazdu")<br>
 <i>Rys.2 Model pojazdu </i> <br>
 
 ### 3. Cel pojazdu

@@ -25,7 +25,7 @@ let controls = [0, 0, 0, 0];
 const keys = ['w', 's', 'a', 'd'];
 
 function preload() {
-  track = loadImage('assets/trackv3.png');
+  track = loadImage('assets/trackv2.png');
   carModelPath = loadImage('assets/pixel_car.png');
 }
 
@@ -55,9 +55,9 @@ function setup() {
     stepsPerEpoch: 60
   };
 
-  const numActions = 6;
+  const numActions = 3;
   const inputSize = angles.length + 4;
-  const temporalWindow = 2;
+  const temporalWindow = 25;
 
 
   const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
@@ -66,6 +66,7 @@ function setup() {
 
   network.InputShape = [totalInputSize];
   network.addNeuralNetworkLayers([
+    { type: 'dense', units: 32, activation: 'relu' },
     { type: 'dense', units: 32, activation: 'relu' },
     { type: 'dense', units: numActions, activation: 'softmax' }
   ]);
@@ -78,17 +79,17 @@ function setup() {
   const teacherConfig = {
     lessonsQuantity: 10000,
     lessonLength: 300,
-    lessonsWithRandom: 0,
-    epsilon: 0.5,
+    lessonsWithRandom: 5,
+    epsilon: 1,
     epsilonDecay: 0.995,
     epsilonMin: 0.05,
-    gamma: 0.5
+    gamma: 0.8
   };
 
   const agentConfig = {
     model: model,
     agentConfig: {
-      memorySize: 5000,
+      memorySize: 1000,
       batchSize: 128,
       temporalWindow: temporalWindow
     }

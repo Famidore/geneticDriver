@@ -68,21 +68,21 @@ class Driver {
 
     calculate(order) {
         if (!this.death) {
-            if (controls[0] || order == 'w' || order == 0 || order == 3 || order == 4) {
+            if (controls[0] || order == 'w' || order == 0) {
                 this.ay += sin(radians(this.angle));
                 this.ax += cos(radians(this.angle));
             };
-            if (controls[1] || order == 's' || order == 5) {
+            if (controls[1] || order == 's') {
                 this.ay -= sin(radians(this.angle));
                 this.ax -= cos(radians(this.angle));
             };
-            if (controls[2] || order == 'a' || order == 1 || order == 3) {
+            if (controls[2] || order == 'a' || order == 1) {
                 this.angle -= this.angleForce;
                 if (this.angle < 0) {
                     this.angle = 360;
                 };
             };
-            if (controls[3] || order == 'd' || order == 2 || order == 4) {
+            if (controls[3] || order == 'd' || order == 2) {
                 this.angle += this.angleForce;
                 if (this.angle > 360) {
                     this.angle = 0;

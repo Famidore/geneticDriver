@@ -1,17 +1,16 @@
 function keepDistance(linesDistance) {
 
     for (i in linesDistance) {
-        if (linesDistance[i] > 50) { award += 0.1}
+        if (linesDistance[i] > 50) { award += 0.1 }
         else { award -= 0.1 }
 
     }
 }
 
 function newDeath(prevDeathX, prevDeathY, currDeathX, currDeathY) {
-
-    // if (dist(prevDeathX, prevDeathY, currDeathX, currDeathY) < 50) {
-    //     award -= 10.0;
-    // }
+    if (dist(prevDeathX, prevDeathY, currDeathX, currDeathY) < 50) {
+        award -= 10.0;
+    }
 }
 
 function timePoints(timeDeath) {
@@ -19,5 +18,5 @@ function timePoints(timeDeath) {
 }
 
 function velocityPoints(vx, vy) {
-    // award += ((abs(vx + vy) - 2.5) * 0.01);
+    award += ((abs(vx + vy) - 2.5) * 0.01);
 }

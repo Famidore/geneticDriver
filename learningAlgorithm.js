@@ -21,7 +21,7 @@ class GenAlgo {
             const px = carX + i * cos(radians(carAngle))
             const py = carY + i * sin(radians(carAngle))
 
-            if (track.get(px, py)[0] == 3 && track.get(px, py)[1] == 49) { // change get to optimal func
+            if (track.get(px, py)[0] == 3 && track.get(px, py)[1] == 49) {
                 stroke(255, 0, 255, 100);
                 strokeWeight(2);
                 line(0, 0, i, 0);
@@ -70,6 +70,8 @@ class GenAlgo {
                         this.lastCheck.length > 2 ? this.lastCheck.pop() : '';
 
                         driver.checkPointScore++;
+
+                        academy.addRewardToAgent(agent, 1.0);
                         console.log('Passed checkpoint!');
                         OnSpecialGoodEvent(1.0)
                     }

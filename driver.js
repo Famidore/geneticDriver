@@ -5,7 +5,7 @@ class Driver {
 
         this.size = tempSize;
 
-        this.angle = 300;
+        this.angle = 290;
         this.vx = 0;
         this.vy = 0;
         this.ax = 0;

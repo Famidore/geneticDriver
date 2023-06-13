@@ -73,7 +73,6 @@ class GenAlgo {
 
                         academy.addRewardToAgent(agent, 1.0);
                         console.log('Passed checkpoint!');
-                        OnSpecialGoodEvent(1.0)
                     }
                 }
             }

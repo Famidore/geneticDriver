@@ -105,7 +105,7 @@ Funkcje nagród oraz kar:
 * na podstawie analizy miejsca poprzedniej śmierci: jeśli pojazd wyjedzie poza tor w miejscu oddalonym o mniej niż 50 pikseli w stosunku do miejsca jego śmierci w poprzedniej iteracji symulacji zostanie przydzielona kara o wartości -10.
 2. Funkcje nagród:
 * algorytm LineIntersection dla przejazdu przez punkty kontrolne: aby wykryć kiedy pojazd znajdzie się na przecięciu z linią punktu konmtrolnego używamy zaimplementowanego przez nas algorytmu LineIntersection: <br>
-$d=(y_4-y_3)*(x_2-x_1)-(x_4-x_3)*(y_2-y_1)$<br> 
+$d=(y_4-y_3)*(x_2-x_1)-(x_4-x_3)*(y_2-y_1)$ <br> 
 $A=(x_4 - x_3) * (y_1 - y_3) - (y_4 - y_3) * (x_1 - x_3)$ <br>
 $B = (x_2 - x_1) * (y_1 - y_3) - (y_2 - y_1) * (x_1 - x_3)$ <br>
 Jeżeli $|A=0|$ oraz $|B=0|=0$ oraz $|d|=0$ to punkt przecięcia to $(intx, inty)$, gdzie $intx = (x_1+x_2)/2$ oraz $inty=(y_1 + y_2) / 2$. Współrzędne te muszą się pokryć ze współrzędnymi $(x,y)$ pojazdu, aby została przyznana nagroda o wartości: 5 - dla różowych/białych punktów kontrolnych, 1 - dla jasnozielonych.

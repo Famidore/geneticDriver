@@ -35,5 +35,6 @@ The pink and white colors are used to set checkpoints, if you are using more tha
 `q` - clear canvas in track editor.
 # Play
 Visit and play at: https://famidore.github.io/geneticDriver/
-## Examples
-![]
+# Examples
+![](gifs/2023-06-11%2019-49-50%20(3).gif)<br>
+![](gifs/2023-06-10%2019-00-47.gif)

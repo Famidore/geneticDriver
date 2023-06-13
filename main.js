@@ -57,7 +57,7 @@ function setup() {
 
   const numActions = 3;
   const inputSize = angles.length + 4;
-  const temporalWindow = 25;
+  const temporalWindow = 3;
 
 
   const totalInputSize = inputSize * temporalWindow + numActions * temporalWindow + inputSize;
@@ -66,7 +66,6 @@ function setup() {
 
   network.InputShape = [totalInputSize];
   network.addNeuralNetworkLayers([
-    { type: 'dense', units: 32, activation: 'relu' },
     { type: 'dense', units: 32, activation: 'relu' },
     { type: 'dense', units: numActions, activation: 'softmax' }
   ]);
@@ -145,7 +144,7 @@ function draw() {
   }
 
   // console.log(award)
-  
+
 }
 
 function windowResized() {

@@ -108,7 +108,7 @@ Funkcje nagród oraz kar:
 $d=(y_4-y_3)*(x_2-x_1)-(x_4-x_3)*(y_2-y_1)$<br> 
 $A=(x_4 - x_3) * (y_1 - y_3) - (y_4 - y_3) * (x_1 - x_3)$ <br>
 $B = (x_2 - x_1) * (y_1 - y_3) - (y_2 - y_1) * (x_1 - x_3)$ <br>
-Jeżeli $|A=0|$ oraz $|B=0|=0$ oraz $|d|=0$ to punkt przecięcia to $(intx, inty)$, gdzie $intx = (x_1+x_2)/2 $ oraz $inty=(y_1 + y_2) / 2$. Współrzędne te muszą się pokryć ze współrzędnymi $(x,y)$ pojazdu, aby została przyznana nagroda o wartości: 5 - dla różowych/białych punktów kontrolnych, 1 - dla jasnozielonych.
+Jeżeli $|A=0|$ oraz $|B=0|=0$ oraz $|d|=0$ to punkt przecięcia to $(intx, inty)$, gdzie $intx = (x_1+x_2)/2$ oraz $inty=(y_1 + y_2) / 2$. Współrzędne te muszą się pokryć ze współrzędnymi $(x,y)$ pojazdu, aby została przyznana nagroda o wartości: 5 - dla różowych/białych punktów kontrolnych, 1 - dla jasnozielonych.
 * na postawie wykrywania granicy toru: gdy odległość od aktualnego położenia pojazdu do granicy toru będzie większa niż 50 pikseli  wówczas przydzielana będzie nagroda dla <i>studenta</i> o wartości 0.1 co każdy krok symulacji działania symulacji.
 * na podstawie czasu utrzymania się na torze: co każdy krok symulacji działania symulacji zostaje przyznawana nagroda o wartości 0.001 w przypadku gdy pojazd znajduje się w obrębie narysowanego toru
 * na podstawie prędkości pojazdu: co każdy krok symulacji działania symulacji pojazdowi przyznawana jest nagroda proporcjonalna do jego aktualnej prędkości. Nagroda wynosi $(|V_x+V_y| - 2.5) * 0.01$.
